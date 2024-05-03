@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+import time
 import argparse
 import sys
 import pandas as pd
@@ -319,6 +319,8 @@ If you don't specify any models, then it uses LJSpeech based English model.
         encoder_config_path = args.encoder_config_path
 
     # load models
+    start_time_A3 = time.time()
+
     synthesizer = Synthesizer(
         model_path,
         config_path,
@@ -329,7 +331,12 @@ If you don't specify any models, then it uses LJSpeech based English model.
         encoder_path,
         encoder_config_path,
         args.use_cuda,
-    )
+    ) # Execution time: 64.10651278495789 seconds
+
+    end_time_A3 = time.time()
+
+    execution_time_A3 = end_time_A3 - start_time_A3
+    print("Execution time: (A3)", execution_time_A3, "seconds")
 
     # query speaker ids of a multi-speaker model.
     if args.list_speaker_idxs:
