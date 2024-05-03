@@ -13,7 +13,6 @@ from TTS.utils.manage import ModelManager
 from TTS.utils.synthesizer import Synthesizer
 from tqdm.auto import tqdm
 
-startTimeFile = time.time()
 def str2bool(v):
     if isinstance(v, bool):
         return v
@@ -427,10 +426,11 @@ If you don't specify any models, then it uses LJSpeech based English model.
     print(" > Saving output to {}".format(args.out_path))
     synthesizer.save_wav(wav, args.out_path)
 
-endTimeFile = time.time()
 
-executionTimeFile = endTimeFile - startTimeFile
-print("Complete File Time : ", executionTimeFile)
 
 if __name__ == "__main__":
+    startTimeFile = time.time()
     main()
+    endTimeFile = time.time()
+    executionTimeFile = endTimeFile - startTimeFile
+    print("Complete File Time : ", executionTimeFile)
