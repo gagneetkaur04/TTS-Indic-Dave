@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import torch
 import time
 import argparse
 import sys
@@ -173,7 +174,12 @@ If you don't specify any models, then it uses LJSpeech based English model.
     #     help="Output wav files folder.",
     # )
 
-    parser.add_argument("--use_cuda", type=bool, help="Run model on CUDA.", default=False)
+    # parser.add_argument("--use_cuda", type=bool, help="Run model on CUDA.", default=False)
+    use_cuda = False
+    if torch.cuda.is_available():
+        use_cuda = True
+    
+    parser.add_argument("--use_cuda", type=bool, help="Run model on CUDA.", default=use_cuda)
     parser.add_argument(
         "--vocoder_path",
         type=str,
