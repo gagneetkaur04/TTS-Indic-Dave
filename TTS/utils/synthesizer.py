@@ -75,11 +75,18 @@ class Synthesizer(object):
 
         if self.use_cuda:
             assert torch.cuda.is_available(), "CUDA is not availabe on this machine."
+
+        start_time_A2 = time.time()
         self._load_tts(tts_checkpoint, tts_config_path, use_cuda)
+        end_time_A2 = time.time()
+        execution_time_A2 = end_time_A2 - start_time_A2
+        print("Execution time: (A2)", execution_time_A2, "seconds")
+
         self.output_sample_rate = self.tts_config.audio["sample_rate"]
         if vocoder_checkpoint:
             self._load_vocoder(vocoder_checkpoint, vocoder_config, use_cuda)
             self.output_sample_rate = self.vocoder_config.audio["sample_rate"]
+
 
     @staticmethod
     def _get_segmenter(lang: str):
@@ -295,6 +302,7 @@ class Synthesizer(object):
 
         use_gl = self.vocoder_model is None
 
+        startTime_syn = time.time()
         if not reference_wav:
             for sen in sens:
                 # synthesize voice
@@ -418,6 +426,10 @@ class Synthesizer(object):
             if not use_gl:
                 waveform = waveform.numpy()
             wavs = waveform.squeeze()
+
+        endTime_syn = time.time()
+        execution_time_A1 = endTime_syn - startTime_syn
+        print("Execution time: (syn)", execution_time_A1, "seconds")
 
         # compute stats
         process_time = time.time() - start_time
