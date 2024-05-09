@@ -80,11 +80,15 @@ class Synthesizer(object):
         self._load_tts(tts_checkpoint, tts_config_path, use_cuda)
         end_time_A2 = time.time()
         execution_time_A2 = end_time_A2 - start_time_A2
-        print("Execution time: (A2)", execution_time_A2, "seconds")
+        print("TTS Model Loading takes ", execution_time_A2, "seconds")
 
         self.output_sample_rate = self.tts_config.audio["sample_rate"]
         if vocoder_checkpoint:
+            start_time_A4 = time.time()
             self._load_vocoder(vocoder_checkpoint, vocoder_config, use_cuda)
+            end_time_A4 = time.time()
+            execution_time_A4 = end_time_A4 - start_time_A4
+            print("Vocoder Model Loading takes ", execution_time_A4, "seconds")
             self.output_sample_rate = self.vocoder_config.audio["sample_rate"]
 
 
@@ -429,7 +433,7 @@ class Synthesizer(object):
 
         endTime_syn = time.time()
         execution_time_A1 = endTime_syn - startTime_syn
-        print("Execution time: (syn)", execution_time_A1, "seconds")
+        print("Audio Generation takes ", execution_time_A1, "seconds")
 
         # compute stats
         process_time = time.time() - start_time
